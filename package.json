@@ -1,0 +1,25 @@
+{
+  "name": "vec3",
+  "version": "0.0.1",
+  "description": "vec3 for the browser and node.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nathanfaucett/vec3.git"
+  },
+  "main": "src/index.js",
+  "keywords": [
+    "vec3",
+    "vec3.js"
+  ],
+  "author": "Nathan Faucett",
+  "license": "BSD-2-Clause",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "grunt": "",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-jsbeautifier": ""
+  },
+  "dependencies": {
+    "mathf": "nathanfaucett/mathf"
+  }
+}
