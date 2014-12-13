@@ -5,13 +5,8 @@ var vec3 = module.exports;
 
 
 vec3.create = function(x, y, z) {
-    var v = new mathf.ArrayType(3);
 
-    v[0] = x !== undefined ? x : 0;
-    v[1] = y !== undefined ? y : 0;
-    v[2] = z !== undefined ? z : 0;
-
-    return v;
+    return vec3.set(new mathf.ArrayType(3), x, y, z);
 };
 
 vec3.copy = function(a, b) {
