@@ -5,28 +5,44 @@ var vec3 = module.exports;
 
 
 vec3.create = function(x, y, z) {
+    var out = new mathf.ArrayType(3);
 
-    return vec3.set(new mathf.ArrayType(3), x, y, z);
+    out[0] = x !== undefined ? x : 0;
+    out[1] = y !== undefined ? y : 0;
+    out[2] = z !== undefined ? z : 0;
+
+    return out;
 };
 
-vec3.copy = function(a, b) {
-    a[0] = b[0];
-    a[1] = b[1];
-    a[2] = b[2];
+vec3.copy = function(out, a) {
 
-    return a;
+    out[0] = a[0];
+    out[1] = a[1];
+    out[2] = a[2];
+
+    return out;
 };
 
-vec3.set = function(a, x, y, z) {
-    a[0] = x !== undefined ? x : 0;
-    a[1] = y !== undefined ? y : 0;
-    a[2] = z !== undefined ? z : 0;
+vec3.clone = function(a) {
+    var out = new mathf.ArrayType(3);
 
-    return a;
+    out[0] = a[0];
+    out[1] = a[1];
+    out[2] = a[2];
+
+    return out;
 };
 
-vec3.add = function(a, b, out) {
-    out = out || a;
+vec3.set = function(out, x, y, z) {
+
+    out[0] = x !== undefined ? x : 0;
+    out[1] = y !== undefined ? y : 0;
+    out[2] = z !== undefined ? z : 0;
+
+    return out;
+};
+
+vec3.add = function(out, a, b) {
 
     out[0] = a[0] + b[0];
     out[1] = a[1] + b[1];
@@ -35,8 +51,7 @@ vec3.add = function(a, b, out) {
     return a;
 };
 
-vec3.sub = function(a, b, out) {
-    out = out || a;
+vec3.sub = function(out, a, b) {
 
     out[0] = a[0] - b[0];
     out[1] = a[1] - b[1];
@@ -45,8 +60,7 @@ vec3.sub = function(a, b, out) {
     return out;
 };
 
-vec3.mul = function(a, b, out) {
-    out = out || a;
+vec3.mul = function(out, a, b) {
 
     out[0] = a[0] * b[0];
     out[1] = a[1] * b[1];
@@ -55,12 +69,10 @@ vec3.mul = function(a, b, out) {
     return out;
 };
 
-vec3.div = function(a, b, out) {
+vec3.div = function(out, a, b) {
     var bx = b[0],
         by = b[1],
         bz = b[2];
-
-    out = out || a;
 
     out[0] = a[0] * (bx !== 0 ? 1 / bx : bx);
     out[1] = a[1] * (by !== 0 ? 1 / by : by);
@@ -69,8 +81,7 @@ vec3.div = function(a, b, out) {
     return out;
 };
 
-vec3.sadd = function(a, s, out) {
-    out = out || a;
+vec3.sadd = function(out, a, s) {
 
     out[0] = a[0] + s;
     out[1] = a[1] + s;
@@ -79,8 +90,7 @@ vec3.sadd = function(a, s, out) {
     return a;
 };
 
-vec3.ssub = function(a, s, out) {
-    out = out || a;
+vec3.ssub = function(out, a, s) {
 
     out[0] = a[0] - s;
     out[1] = a[1] - s;
@@ -89,8 +99,7 @@ vec3.ssub = function(a, s, out) {
     return out;
 };
 
-vec3.smul = function(a, s, out) {
-    out = out || a;
+vec3.smul = function(out, a, s) {
 
     out[0] = a[0] * s;
     out[1] = a[1] * s;
@@ -99,11 +108,9 @@ vec3.smul = function(a, s, out) {
     return out;
 };
 
-vec3.sdiv = function(a, s, out) {
+vec3.sdiv = function(out, a, s) {
     s = s !== 0 ? 1 / s : s;
 
-    out = out || a;
-
     out[0] = a[0] * s;
     out[1] = a[1] * s;
     out[2] = a[2] * s;
@@ -111,12 +118,24 @@ vec3.sdiv = function(a, s, out) {
     return out;
 };
 
-vec3.dot = function(a, b) {
+vec3.lengthSqValues = function(x, y, z) {
 
-    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    return x * x + y * y + z * z;
 };
 
-vec3.cross = function(a, b, out) {
+vec3.lengthValues = function(x, y, z) {
+    var lsq = vec3.lengthSqValues(x, y, z);
+
+    return lsq !== 0 ? mathf.sqrt(lsq) : lsq;
+};
+
+vec3.invLengthValues = function(x, y, z) {
+    var lsq = vec3.lengthSqValues(x, y, z);
+
+    return lsq !== 0 ? 1 / mathf.sqrt(lsq) : lsq;
+};
+
+vec3.cross = function(out, a, b) {
     var ax = a[0],
         ay = a[1],
         az = a[2],
@@ -124,13 +143,16 @@ vec3.cross = function(a, b, out) {
         by = b[1],
         bz = b[2];
 
-    out = out || a;
-
     out[0] = ay * bz - az * by;
     out[1] = az * bx - ax * bz;
     out[2] = ax * by - ay * bx;
 
     return out;
+};
+
+vec3.dot = function(a, b) {
+
+    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 };
 
 vec3.lengthSq = function(a) {
@@ -150,18 +172,33 @@ vec3.invLength = function(a) {
     return lsq !== 0 ? 1 / mathf.sqrt(lsq) : lsq;
 };
 
-vec3.setLength = function(a, length) {
+vec3.setLength = function(out, a, length) {
+    var x = a[0],
+        y = a[1],
+        z = a[2],
+        s = length * vec3.invLengthValues(x, y, z);
 
-    return vec3.smul(a, vec3.invLength(a) * length);
+    out[0] = x * s;
+    out[1] = y * s;
+    out[2] = z * s;
+
+    return out;
 };
 
-vec3.normalize = function(a) {
+vec3.normalize = function(out, a) {
+    var x = a[0],
+        y = a[1],
+        z = a[2],
+        invlsq = vec3.invLengthValues(x, y, z);
 
-    return vec3.sdiv(a, vec3.length(a));
+    out[0] = x * invlsq;
+    out[1] = y * invlsq;
+    out[2] = z * invlsq;
+
+    return out;
 };
 
-vec3.inverse = function(a, out) {
-    out = out || a;
+vec3.inverse = function(out, a) {
 
     out[0] = a[0] * -1;
     out[1] = a[1] * -1;
@@ -170,10 +207,8 @@ vec3.inverse = function(a, out) {
     return out;
 };
 
-vec3.lerp = function(a, b, x, out) {
+vec3.lerp = function(out, a, b, x) {
     var lerp = mathf.lerp;
-
-    out = out || a;
 
     out[0] = lerp(a[0], b[0], x);
     out[1] = lerp(a[1], b[1], x);
@@ -182,15 +217,13 @@ vec3.lerp = function(a, b, x, out) {
     return out;
 };
 
-vec3.min = function(a, b, out) {
+vec3.min = function(out, a, b) {
     var ax = a[0],
         ay = a[1],
         az = a[2],
         bx = b[0],
         by = b[1],
         bz = b[2];
-
-    out = out || a;
 
     out[0] = bx < ax ? bx : ax;
     out[1] = by < ay ? by : ay;
@@ -199,15 +232,13 @@ vec3.min = function(a, b, out) {
     return out;
 };
 
-vec3.max = function(a, b, out) {
+vec3.max = function(out, a, b) {
     var ax = a[0],
         ay = a[1],
         az = a[2],
         bx = b[0],
         by = b[1],
         bz = b[2];
-
-    out = out || a;
 
     out[0] = bx > ax ? bx : ax;
     out[1] = by > ay ? by : ay;
@@ -227,8 +258,6 @@ vec3.clamp = function(a, min, max, out) {
         maxy = max[1],
         maxz = max[2];
 
-    out = out || a;
-
     out[0] = x < minx ? minx : x > maxx ? maxx : x;
     out[1] = y < miny ? miny : y > maxy ? maxy : y;
     out[2] = z < minz ? minz : z > maxz ? maxz : z;
@@ -236,12 +265,10 @@ vec3.clamp = function(a, min, max, out) {
     return out;
 };
 
-vec3.transformMat3 = function(a, m, out) {
+vec3.transformMat3 = function(out, a, m) {
     var x = a[0],
         y = a[1],
         z = a[2];
-
-    out = out || a;
 
     out[0] = x * m[0] + y * m[3] + z * m[6];
     out[1] = x * m[1] + y * m[4] + z * m[7];
@@ -250,12 +277,10 @@ vec3.transformMat3 = function(a, m, out) {
     return out;
 };
 
-vec3.transformMat4 = function(a, m, out) {
+vec3.transformMat4 = function(out, a, m) {
     var x = a[0],
         y = a[1],
         z = a[2];
-
-    out = out || a;
 
     out[0] = x * m[0] + y * m[4] + z * m[8] + m[12];
     out[1] = x * m[1] + y * m[5] + z * m[9] + m[13];
@@ -264,12 +289,10 @@ vec3.transformMat4 = function(a, m, out) {
     return out;
 };
 
-vec3.transformMat4Rotation = function(a, m, out) {
+vec3.transformMat4Rotation = function(out, a, m) {
     var x = a[0],
         y = a[1],
         z = a[2];
-
-    out = out || a;
 
     out[0] = x * m[0] + y * m[4] + z * m[8];
     out[1] = x * m[1] + y * m[5] + z * m[9];
@@ -278,14 +301,13 @@ vec3.transformMat4Rotation = function(a, m, out) {
     return out;
 };
 
-vec3.transformProjection = function(a, m, out) {
+vec3.transformProjection = function(out, a, m) {
     var x = a[0],
         y = a[1],
         z = a[2],
-        d = m[3] * x + m[7] * y + m[11] * z + m[15];
+        d = x * m[3] + y * m[7] + z * m[11] + m[15];
 
     d = d !== 0 ? 1 / d : d;
-    out = out || a;
 
     out[0] = (x * m[0] + y * m[4] + z * m[8] + m[12]) * d;
     out[1] = (x * m[1] + y * m[5] + z * m[9] + m[13]) * d;
@@ -294,7 +316,7 @@ vec3.transformProjection = function(a, m, out) {
     return out;
 };
 
-vec3.transformQuat = function(a, q, out) {
+vec3.transformQuat = function(out, a, q) {
     var x = a[0],
         y = a[1],
         z = a[2],
@@ -308,8 +330,6 @@ vec3.transformQuat = function(a, q, out) {
         iz = qw * z + qx * y - qy * x,
         iw = -qx * x - qy * y - qz * z;
 
-    out = out || a;
-
     out[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
     out[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
     out[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
@@ -317,28 +337,31 @@ vec3.transformQuat = function(a, q, out) {
     return out;
 };
 
-vec3.positionFromMat4 = function(a, m) {
-    a[0] = m[12];
-    a[1] = m[13];
-    a[2] = m[14];
+vec3.positionFromMat4 = function(out, m) {
 
-    return a;
+    out[0] = m[12];
+    out[1] = m[13];
+    out[2] = m[14];
+
+    return out;
 };
 
-vec3.scaleFromMat3 = function(a, m) {
-    a[0] = vec3.length(vec3.set(a, m[0], m[3], m[6]));
-    a[1] = vec3.length(vec3.set(a, m[1], m[4], m[7]));
-    a[2] = vec3.length(vec3.set(a, m[2], m[5], m[8]));
+vec3.scaleFromMat3 = function(out, m) {
 
-    return a;
+    out[0] = vec3.lengthValues(m[0], m[3], m[6]);
+    out[1] = vec3.lengthValues(m[1], m[4], m[7]);
+    out[2] = vec3.lengthValues(m[2], m[5], m[8]);
+
+    return out;
 };
 
-vec3.scaleFromMat4 = function(a, m) {
-    a[0] = vec3.length(vec3.set(a, m[0], m[4], m[8]));
-    a[1] = vec3.length(vec3.set(a, m[1], m[5], m[9]));
-    a[2] = vec3.length(vec3.set(a, m[2], m[6], m[10]));
+vec3.scaleFromMat4 = function(out, m) {
 
-    return a;
+    out[0] = vec3.lengthValues(m[0], m[4], m[8]);
+    out[1] = vec3.lengthValues(m[1], m[5], m[9]);
+    out[2] = vec3.lengthValues(m[2], m[6], m[10]);
+
+    return out;
 };
 
 vec3.equal = function(a, b) {
