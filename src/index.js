@@ -379,3 +379,8 @@ vec3.notEqual = function(a, b) {
         a[2] !== b[2]
     );
 };
+
+vec3.str = function(out) {
+
+    return "Vec3(" + out[0] + ", " + out[1] + ", " + out[2] + ")";
+};
