@@ -247,7 +247,7 @@ vec3.max = function(out, a, b) {
     return out;
 };
 
-vec3.clamp = function(a, min, max, out) {
+vec3.clamp = function(out, a, min, max) {
     var x = a[0],
         y = a[1],
         z = a[2],
