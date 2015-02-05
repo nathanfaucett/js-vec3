@@ -4,8 +4,14 @@ var mathf = require("mathf");
 var vec3 = module.exports;
 
 
-vec3.create = function(x, y, z) {
-    var out = new mathf.ArrayType(3);
+vec3.ArrayType = typeof(Float32Array) !== "undefined" ? Float32Array : mathf.ArrayType;
+
+
+vec3.create = function(x, y, z, ArrayType) {
+    var out;
+
+    ArrayType = ArrayType !== undefined ? ArrayType : vec3.ArrayType;
+    out = new ArrayType(3);
 
     out[0] = x !== undefined ? x : 0;
     out[1] = y !== undefined ? y : 0;
