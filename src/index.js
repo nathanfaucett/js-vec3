@@ -51,7 +51,7 @@ vec3.add = function(out, a, b) {
     out[1] = a[1] + b[1];
     out[2] = a[2] + b[2];
 
-    return a;
+    return out;
 };
 
 vec3.sub = function(out, a, b) {
@@ -90,7 +90,7 @@ vec3.sadd = function(out, a, s) {
     out[1] = a[1] + s;
     out[2] = a[2] + s;
 
-    return a;
+    return out;
 };
 
 vec3.ssub = function(out, a, s) {
