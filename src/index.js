@@ -319,6 +319,21 @@ vec3.transformProjection = function(out, a, m) {
     return out;
 };
 
+vec3.transformProjectionNoPostion = function(out, a, m) {
+    var x = a[0],
+        y = a[1],
+        z = a[2],
+        d = x * m[3] + y * m[7] + z * m[11] + m[15];
+
+    d = d !== 0 ? 1 / d : d;
+
+    out[0] = (x * m[0] + y * m[4] + z * m[8]) * d;
+    out[1] = (x * m[1] + y * m[5] + z * m[9]) * d;
+    out[2] = (x * m[2] + y * m[6] + z * m[10]) * d;
+
+    return out;
+};
+
 vec3.transformQuat = function(out, a, q) {
     var x = a[0],
         y = a[1],
