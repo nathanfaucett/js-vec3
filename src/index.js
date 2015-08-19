@@ -319,7 +319,7 @@ vec3.transformProjection = function(out, a, m) {
     return out;
 };
 
-vec3.transformProjectionNoPostion = function(out, a, m) {
+vec3.transformProjectionNoPosition = function(out, a, m) {
     var x = a[0],
         y = a[1],
         z = a[2],
