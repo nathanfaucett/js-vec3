@@ -1,4 +1,5 @@
-var mathf = require("mathf");
+var mathf = require("mathf"),
+    isNumber = require("is_number");
 
 
 var vec3 = exports;
@@ -10,9 +11,9 @@ vec3.ArrayType = typeof(Float32Array) !== "undefined" ? Float32Array : mathf.Arr
 vec3.create = function(x, y, z) {
     var out = new vec3.ArrayType(3);
 
-    out[0] = x !== undefined ? x : 0;
-    out[1] = y !== undefined ? y : 0;
-    out[2] = z !== undefined ? z : 0;
+    out[0] = isNumber(x) ? x : 0;
+    out[1] = isNumber(y) ? y : 0;
+    out[2] = isNumber(z) ? z : 0;
 
     return out;
 };
@@ -38,9 +39,9 @@ vec3.clone = function(a) {
 
 vec3.set = function(out, x, y, z) {
 
-    out[0] = x !== undefined ? x : 0;
-    out[1] = y !== undefined ? y : 0;
-    out[2] = z !== undefined ? z : 0;
+    out[0] = isNumber(x) ? x : 0;
+    out[1] = isNumber(y) ? y : 0;
+    out[2] = isNumber(z) ? z : 0;
 
     return out;
 };
@@ -399,6 +400,7 @@ vec3.notEqual = function(a, b) {
 };
 
 vec3.str = function(out) {
-
     return "Vec3(" + out[0] + ", " + out[1] + ", " + out[2] + ")";
 };
+
+vec3.string = vec3.toString = vec3.str;
