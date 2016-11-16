@@ -18,6 +18,18 @@ vec3.create = function(x, y, z) {
     return out;
 };
 
+vec3.up = vec3.create(0.0, 0.0, 1.0);
+vec3.down = vec3.create(0.0, 0.0, -1.0);
+
+vec3.forward = vec3.create(0.0, 1.0, 0.0);
+vec3.backward = vec3.create(0.0, -1.0, 0.0);
+
+vec3.right = vec3.create(1.0, 0.0, 0.0);
+vec3.left = vec3.create(-1.0, 0.0, 0.0);
+
+vec3.zero = vec3.create(0.0, 0.0, 0.0);
+vec3.one = vec3.create(1.0, 1.0, 1.0);
+
 vec3.copy = function(out, a) {
 
     out[0] = a[0];
@@ -269,6 +281,32 @@ vec3.clamp = function(out, a, min, max) {
     return out;
 };
 
+vec3.transformMat2 = function(out, a, m) {
+    var x = a[0],
+        y = a[1],
+        z = a[2];
+
+    out[0] = x * m[0] + y * m[2];
+    out[1] = x * m[1] + y * m[3];
+    out[2] = z;
+
+    return out;
+};
+
+vec3.transformMat32 = function(out, a, m) {
+    var x = a[0],
+        y = a[1],
+        z = a[2];
+
+    out[0] = x * m[0] + y * m[2] + z * m[4];
+    out[1] = x * m[1] + y * m[3] + z * m[5];
+    out[2] = z;
+
+    return out;
+};
+
+vec3.transformMat32Rotation = vec3.transformMat2;
+
 vec3.transformMat3 = function(out, a, m) {
     var x = a[0],
         y = a[1],
@@ -365,6 +403,24 @@ vec3.positionFromMat4 = function(out, m) {
     return out;
 };
 
+vec3.scaleFromMat2 = function(out, m) {
+
+    out[0] = vec3.lengthValues(m[0], m[2], 0);
+    out[1] = vec3.lengthValues(m[1], m[3], 0);
+    out[2] = vec3.lengthValues(0, 0, 1);
+
+    return out;
+};
+
+vec3.scaleFromMat32 = function(out, m) {
+
+    out[0] = vec3.lengthValues(m[0], m[2], 0);
+    out[1] = vec3.lengthValues(m[1], m[3], 0);
+    out[2] = vec3.lengthValues(0, 0, 1);
+
+    return out;
+};
+
 vec3.scaleFromMat3 = function(out, m) {
 
     out[0] = vec3.lengthValues(m[0], m[3], m[6]);
@@ -383,19 +439,15 @@ vec3.scaleFromMat4 = function(out, m) {
     return out;
 };
 
-vec3.equal = function(a, b) {
-    return !(
-        a[0] !== b[0] ||
-        a[1] !== b[1] ||
-        a[2] !== b[2]
-    );
+vec3.equals = function(a, b) {
+    return !vec3.notEquals(a, b);
 };
 
-vec3.notEqual = function(a, b) {
-    return (
-        a[0] !== b[0] ||
-        a[1] !== b[1] ||
-        a[2] !== b[2]
+vec3.notEquals = function(a, b) {
+    return !(
+        mathf.equals(a[0], b[0]) ||
+        mathf.equals(a[1], b[1]) ||
+        mathf.equals(a[2], b[2])
     );
 };
 
